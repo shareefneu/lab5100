@@ -57,6 +57,9 @@ public class MainJFrame extends javax.swing.JFrame {
         messageField = new javax.swing.JTextField();
         ageField = new javax.swing.JTextField();
         submitButton = new javax.swing.JButton();
+        photoLabel = new javax.swing.JLabel();
+        photoTextField = new javax.swing.JTextField();
+        photoUploadButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 102, 102));
@@ -122,6 +125,21 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
+        photoLabel.setText("Upload Photo");
+
+        photoTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                photoTextFieldActionPerformed(evt);
+            }
+        });
+
+        photoUploadButton.setText("Upload Photo");
+        photoUploadButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                photoUploadButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -143,15 +161,23 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addComponent(lastName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(email)
-                    .addComponent(age, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(age, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(photoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lastNameField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(messageField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(emailField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ageField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(firstNameField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(photoTextField)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(photoUploadButton)
+                        .addGap(105, 105, 105))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lastNameField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(messageField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ageField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(firstNameField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,7 +204,12 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(messageField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(93, 93, 93)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(photoLabel)
+                    .addComponent(photoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(photoUploadButton))
+                .addGap(46, 46, 46)
                 .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -224,8 +255,11 @@ public class MainJFrame extends javax.swing.JFrame {
         String age = ageField.getText();
         String email = emailField.getText();
         String message = messageField.getText();
+        String uploadImage = photoTextField.getText();
         System.out.println(firstName+" "+ lastName+" "+age+" "+email+" "+message);
-
+          // System.out.println("Hello");
+          
+          ImageIcon icon = new ImageIcon(uploadImage);
         if(!(Pattern.matches("([^\\s]+$)", firstNameField.getText()))){
             JOptionPane.showMessageDialog(null, "Please enter a valid first name", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -238,9 +272,12 @@ public class MainJFrame extends javax.swing.JFrame {
         else if(!(Pattern.matches("^[a-zA-Z0-9]+[@]{1}+[a-zA-Z0-9]+[.]{1}+[a-zA-Z0-9]+$", emailField.getText()))) {
             JOptionPane.showMessageDialog(null, "Please enter a valid email", "Error", JOptionPane.ERROR_MESSAGE);
         } 
+        else if(!(Pattern.matches("([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)", photoTextField.getText()))){
+            JOptionPane.showMessageDialog(null, "Please select a valid photo", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         else {
             JOptionPane.showMessageDialog(this, "First Name: " +firstName+ "\nLast Name: " +lastName+ "\nAge: " +age+ "\nEmail: " +email+ "\nMessage: \n" +message, 
-                "User Data", JOptionPane.INFORMATION_MESSAGE);
+                "User Data", JOptionPane.INFORMATION_MESSAGE, icon);
         }
         
         
@@ -248,7 +285,21 @@ public class MainJFrame extends javax.swing.JFrame {
  
         setLocationRelativeTo(null);
         setVisible(true);
+                                       
     }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void photoTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_photoTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_photoTextFieldActionPerformed
+
+    private void photoUploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_photoUploadButtonActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File f = chooser.getSelectedFile();
+        String filename = f.getAbsolutePath();
+        photoTextField.setText(filename);
+    }//GEN-LAST:event_photoUploadButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -298,6 +349,9 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField lastNameField;
     private javax.swing.JLabel message;
     private javax.swing.JTextField messageField;
+    private javax.swing.JLabel photoLabel;
+    private javax.swing.JTextField photoTextField;
+    private javax.swing.JButton photoUploadButton;
     private javax.swing.JButton submitButton;
     private javax.swing.JLabel titleLabel;
     // End of variables declaration//GEN-END:variables

@@ -69,16 +69,27 @@
                       </Group>
                       <Component id="email" min="-2" max="-2" attributes="0"/>
                       <Component id="age" min="-2" pref="105" max="-2" attributes="0"/>
+                      <Component id="photoLabel" alignment="0" min="-2" pref="88" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lastNameField" alignment="1" min="-2" pref="326" max="-2" attributes="0"/>
-                      <Component id="messageField" alignment="1" min="-2" pref="326" max="-2" attributes="0"/>
-                      <Component id="emailField" alignment="1" min="-2" pref="326" max="-2" attributes="0"/>
-                      <Component id="ageField" alignment="1" min="-2" pref="326" max="-2" attributes="0"/>
-                      <Component id="firstNameField" alignment="1" min="-2" pref="326" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="photoTextField" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="photoUploadButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lastNameField" alignment="1" min="-2" pref="326" max="-2" attributes="0"/>
+                              <Component id="messageField" alignment="1" min="-2" pref="326" max="-2" attributes="0"/>
+                              <Component id="emailField" alignment="1" min="-2" pref="326" max="-2" attributes="0"/>
+                              <Component id="ageField" alignment="1" min="-2" pref="326" max="-2" attributes="0"/>
+                              <Component id="firstNameField" alignment="1" min="-2" pref="326" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -112,7 +123,13 @@
                       <Component id="messageField" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="message" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="photoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="photoTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="photoUploadButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                   <Component id="submitButton" min="-2" pref="33" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -209,6 +226,24 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="photoLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Upload Photo"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="photoTextField">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="photoTextFieldActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="photoUploadButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Upload Photo"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="photoUploadButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
