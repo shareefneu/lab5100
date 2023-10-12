@@ -354,7 +354,7 @@ public class formPanel extends javax.swing.JPanel {
 
         */
         //JOptionPane.showMessageDialog(this, fname+ " " +lname+ " " +age+ " " +email+ " " +message, JOptionPane.INFORMATION_MESSAGE, icon);
-        //System.out.println("Hello World");
+        System.out.println("Hello World");
     }//GEN-LAST:event_submitButtonActionPerformed
 
     private void lnameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lnameTextFieldActionPerformed
