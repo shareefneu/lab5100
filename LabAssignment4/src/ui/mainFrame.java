@@ -4,6 +4,8 @@
  */
 package ui;
 
+import java.awt.CardLayout;
+
 /**
  *
  * @author Wajid
@@ -38,7 +40,7 @@ public class mainFrame extends javax.swing.JFrame {
         SplitPane.setDividerLocation(95);
         SplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-        topPanel.setBackground(new java.awt.Color(255, 255, 255));
+        topPanel.setBackground(new java.awt.Color(102, 255, 102));
 
         formButton.setText("Form");
         formButton.addActionListener(new java.awt.event.ActionListener() {
@@ -74,7 +76,7 @@ public class mainFrame extends javax.swing.JFrame {
         topPanelLayout.setVerticalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, topPanelLayout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(headLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -85,17 +87,8 @@ public class mainFrame extends javax.swing.JFrame {
 
         SplitPane.setTopComponent(topPanel);
 
-        javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
-        bottomPanel.setLayout(bottomPanelLayout);
-        bottomPanelLayout.setHorizontalGroup(
-            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
-        );
-        bottomPanelLayout.setVerticalGroup(
-            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
-        );
-
+        bottomPanel.setMinimumSize(new java.awt.Dimension(700, 600));
+        bottomPanel.setLayout(new java.awt.CardLayout());
         SplitPane.setRightComponent(bottomPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -114,12 +107,19 @@ public class mainFrame extends javax.swing.JFrame {
 
     private void formButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formButtonActionPerformed
         // TODO add your handling code here:
-        formPanel newformPanel = new formPanel();
-        SplitPane.setBottomComponent(newformPanel);
+        formPanel newformPanel = new formPanel(bottomPanel);
+        bottomPanel.add(newformPanel);
+        CardLayout layout = (CardLayout) bottomPanel.getLayout();
+        layout.next(bottomPanel);
+        // SplitPane.setBottomComponent(newformPanel);
     }//GEN-LAST:event_formButtonActionPerformed
 
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
         // TODO add your handling code here:
+        viewPanel newViewPanel = new viewPanel(null);
+        bottomPanel.add(newViewPanel);
+        CardLayout layout = (CardLayout) bottomPanel.getLayout();
+        layout.next(bottomPanel);
     }//GEN-LAST:event_viewButtonActionPerformed
 
     /**

@@ -4,6 +4,10 @@
  */
 package ui;
 
+import java.awt.CardLayout;
+import javax.swing.JPanel;
+import model.Patient;
+
 /**
  *
  * @author Wajid
@@ -13,8 +17,10 @@ public class formPanel extends javax.swing.JPanel {
     /**
      * Creates new form formPanel
      */
-    public formPanel() {
+    private JPanel bottomPanel;
+    public formPanel(JPanel inputPanel) {
         initComponents();
+        this.bottomPanel = inputPanel;
     }
 
     /**
@@ -52,7 +58,7 @@ public class formPanel extends javax.swing.JPanel {
         dateLabel = new javax.swing.JLabel();
         dateTextField = new javax.swing.JTextField();
 
-        setBackground(new java.awt.Color(255, 255, 255));
+        setBackground(new java.awt.Color(102, 255, 102));
 
         titleLabel.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -240,7 +246,7 @@ public class formPanel extends javax.swing.JPanel {
                     .addComponent(photoLabel))
                 .addGap(12, 12, 12)
                 .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -287,12 +293,20 @@ public class formPanel extends javax.swing.JPanel {
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
         // System.out.println("Hello");
-        String fname = fnameTextField.getText();
-        String lname = lnameTextField.getText();
-        String age = ageTextField.getText();
-        String email = emailTextField.getText();
-        String message = messageTextBox.getText();
-        String uploadImage = photoTextField.getText();
+        Patient newPatient = new Patient();
+        newPatient.setFname(fnameTextField.getText());
+        newPatient.setLname(lnameTextField.getText());
+        newPatient.setAge(ageTextField.getText());
+        newPatient.setEmail(emailTextField.getText());
+        newPatient.setMessage(messageTextBox.getText());
+        newPatient.setUploadImage(photoTextField.getText());
+        newPatient.setGender(genderButtonGroup.getSelection().getActionCommand());
+        newPatient.setType(typeComboBox.getSelectedItem().toString());
+        
+        viewPanel newViewPanel = new viewPanel(newPatient);
+        bottomPanel.add(newViewPanel);
+        CardLayout layout = (CardLayout) bottomPanel.getLayout();
+        layout.next(bottomPanel);
         // System.out.println(fname+ " " +lname+ " " +age+ " " +email);
         // System.out.println(message);
         /*ImageIcon icon = new ImageIcon(uploadImage);
