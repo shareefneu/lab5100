@@ -5,6 +5,13 @@
 package ui;
 
 import java.awt.CardLayout;
+import java.awt.Image;
+import java.awt.Label;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import model.Patient;
 
@@ -282,11 +289,25 @@ public class formPanel extends javax.swing.JPanel {
 
     private void photoUploadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_photoUploadButtonActionPerformed
         // TODO add your handling code here:
-        /* JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File f = chooser.getSelectedFile();
         String filename = f.getAbsolutePath();
-        photoTextField.setText(filename); */
+        photoTextField.setText(filename);
+        /* JFileChooser file = new JFileChooser();
+        if (file.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            try {
+                BufferedImage img = ImageIO.read(file.getSelectedFile());
+                Image edited_image = img.getScaledInstance(60, 80, Image.SCALE_SMOOTH);
+                if (edited_image != null) {
+                    // ImaceIcon icon = new ImageIcon(edited_image);
+                } else {
+                    throw new Exception();
+                }
+                } catch (Exception ex) {
+                }
+        }
+         */
 
     }//GEN-LAST:event_photoUploadButtonActionPerformed
 
@@ -303,6 +324,7 @@ public class formPanel extends javax.swing.JPanel {
         newPatient.setGender(genderButtonGroup.getSelection().getActionCommand());
         newPatient.setType(typeComboBox.getSelectedItem().toString());
         
+
         viewPanel newViewPanel = new viewPanel(newPatient);
         bottomPanel.add(newViewPanel);
         CardLayout layout = (CardLayout) bottomPanel.getLayout();
@@ -332,7 +354,7 @@ public class formPanel extends javax.swing.JPanel {
 
         */
         //JOptionPane.showMessageDialog(this, fname+ " " +lname+ " " +age+ " " +email+ " " +message, JOptionPane.INFORMATION_MESSAGE, icon);
-        System.out.println("Hello World");
+        //System.out.println("Hello World");
     }//GEN-LAST:event_submitButtonActionPerformed
 
     private void lnameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lnameTextFieldActionPerformed
