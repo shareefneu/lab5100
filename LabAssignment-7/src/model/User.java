@@ -11,13 +11,9 @@ package model;
 public class User {
     String fname;
     String lname;
-    String age;
-    String email;
-    String message;
-    String uploadImage;
-    String gender;
-    String type;
-    String date;
+    int age;
+    String issue;
+    int id;
 
     public String getFname() {
         return fname;
@@ -35,60 +31,28 @@ public class User {
         this.lname = lname;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
-    public String getEmail() {
-        return email;
+    public String getIssue() {
+        return issue;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setIssue(String issue) {
+        this.issue = issue;
     }
 
-    public String getMessage() {
-        return message;
+    public int getId() {
+        return id;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getUploadImage() {
-        return uploadImage;
-    }
-
-    public void setUploadImage(String uploadImage) {
-        this.uploadImage = uploadImage;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-    
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-    
 }

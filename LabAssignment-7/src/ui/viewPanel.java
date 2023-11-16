@@ -4,8 +4,13 @@
  */
 package ui;
 
-import java.awt.Label;
+import java.awt.desktop.UserSessionEvent;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 import model.User;
+import util.DatabaseConnector;
 
 /**
  *
@@ -13,14 +18,16 @@ import model.User;
  */
 public class viewPanel extends javax.swing.JPanel {
 
+    private ArrayList<User> users;
+    private User selectedUser;
+    
+    
     /**
      * Creates new form viewPanel
      */
-    private User newPatient;
-    public viewPanel(User newPatient) {
+    public viewPanel(JPanel bottomPanel) {
         initComponents();
-        this.newPatient = newPatient;
-        populateData();
+        populateTable();
     }
 
     /**
@@ -39,18 +46,13 @@ public class viewPanel extends javax.swing.JPanel {
         lnameTextField = new javax.swing.JTextField();
         ageTextField = new javax.swing.JTextField();
         ageLabel = new javax.swing.JLabel();
-        emailLabel = new javax.swing.JLabel();
-        emailTextField = new javax.swing.JTextField();
-        typeLabel = new javax.swing.JLabel();
-        messageLabel = new javax.swing.JLabel();
-        messageScrollPanel = new javax.swing.JScrollPane();
-        messageTextBox = new javax.swing.JTextArea();
-        typeTextField = new javax.swing.JTextField();
-        genderLabel = new javax.swing.JLabel();
-        genderTextField = new javax.swing.JTextField();
-        dateLabel = new javax.swing.JLabel();
-        dateTextField = new javax.swing.JTextField();
-        photoPanel = new javax.swing.JPanel();
+        issueLabel = new javax.swing.JLabel();
+        issueTextField = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        userTable = new javax.swing.JTable();
+        deleteButton = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(102, 255, 102));
 
@@ -87,89 +89,109 @@ public class viewPanel extends javax.swing.JPanel {
 
         ageLabel.setText("Age:");
 
-        emailLabel.setText("Email:");
+        issueLabel.setText("Issue:");
 
-        typeLabel.setText("Type:");
+        userTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        messageLabel.setText("Message:");
+            },
+            new String [] {
+                "id", "fname", "lname", "age", "email", "date"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
-        messageTextBox.setColumns(20);
-        messageTextBox.setRows(5);
-        messageScrollPanel.setViewportView(messageTextBox);
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
-        genderLabel.setText("Gender");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(userTable);
+        if (userTable.getColumnModel().getColumnCount() > 0) {
+            userTable.getColumnModel().getColumn(0).setResizable(false);
+            userTable.getColumnModel().getColumn(1).setResizable(false);
+            userTable.getColumnModel().getColumn(2).setResizable(false);
+            userTable.getColumnModel().getColumn(3).setResizable(false);
+            userTable.getColumnModel().getColumn(4).setResizable(false);
+            userTable.getColumnModel().getColumn(5).setResizable(false);
+        }
 
-        dateLabel.setText("Date");
+        deleteButton.setBackground(new java.awt.Color(102, 255, 102));
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout photoPanelLayout = new javax.swing.GroupLayout(photoPanel);
-        photoPanel.setLayout(photoPanelLayout);
-        photoPanelLayout.setHorizontalGroup(
-            photoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        photoPanelLayout.setVerticalGroup(
-            photoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 364, Short.MAX_VALUE)
-        );
+        editButton.setBackground(new java.awt.Color(102, 255, 102));
+        editButton.setText("Edit");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
+            }
+        });
+
+        saveButton.setBackground(new java.awt.Color(102, 255, 102));
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 128, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(photoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(messageLabel)
-                                .addGap(60, 60, 60)
-                                .addComponent(messageScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(fnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(fnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(lnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(lnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(ageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(ageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(genderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(genderTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(dateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(typeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGap(35, 35, 35)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(typeTextField)
-                                        .addComponent(dateTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)))))))
+                .addGap(132, 132, 132)
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(134, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(issueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fnameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(issueTextField)
+                            .addComponent(ageTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lnameTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fnameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(titleLabel)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(fnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(fnameLabel))
@@ -183,30 +205,19 @@ public class viewPanel extends javax.swing.JPanel {
                             .addComponent(ageLabel))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(genderTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(genderLabel))
+                            .addComponent(issueLabel)
+                            .addComponent(issueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(emailLabel)
-                            .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(typeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(typeLabel))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(dateLabel)
-                            .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(messageScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(messageLabel)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(photoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(47, Short.MAX_VALUE))
+                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(108, 108, 108))))
         );
     }// </editor-fold>//GEN-END:initComponents
+                                            
 
     private void fnameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fnameTextFieldKeyPressed
         // TODO add your handling code here:
@@ -242,38 +253,101 @@ public class viewPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_ageTextFieldKeyPressed
 
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+        int selectedIndex = userTable.getSelectedRow();
+        if (selectedIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a user to delete", "Cannot delete user", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        try {
+            selectedUser = users.get(selectedIndex);
+            DatabaseConnector.deleteUser(selectedUser);
+            JOptionPane.showMessageDialog(null, "User deleted successfully", "Successfully deleted", JOptionPane.INFORMATION_MESSAGE);
+            clearFields();
+            populateTable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        // TODO add your handling code here:
+        int selectedIndex = userTable.getSelectedRow();
+        if (selectedIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a user to edit", "Cannot edit user", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        selectedUser = users.get(selectedIndex);
+        fnameTextField.setText(selectedUser.getFname());
+        lnameTextField.setText(selectedUser.getLname());
+        issueTextField.setText(selectedUser.getIssue());
+        ageTextField.setText(Integer.toString(selectedUser.getAge()));
+    }//GEN-LAST:event_editButtonActionPerformed
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        // TODO add your handling code here:
+        User newUser = new User();
+        try {
+            newUser.setAge(Integer.parseInt(ageTextField.getText()));
+            newUser.setFname(fnameTextField.getText());
+            newUser.setLname(lnameTextField.getText());
+            newUser.setIssue(issueTextField.getText());
+            DatabaseConnector.editUser(selectedUser, newUser);
+            JOptionPane.showMessageDialog(null, "User Edited Successfully", "Successful Edit", JOptionPane.INFORMATION_MESSAGE);
+            clearFields();
+            populateTable();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_saveButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ageLabel;
     private javax.swing.JTextField ageTextField;
-    private javax.swing.JLabel dateLabel;
-    private javax.swing.JTextField dateTextField;
-    private javax.swing.JLabel emailLabel;
-    private javax.swing.JTextField emailTextField;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JButton editButton;
     private javax.swing.JLabel fnameLabel;
     private javax.swing.JTextField fnameTextField;
-    private javax.swing.JLabel genderLabel;
-    private javax.swing.JTextField genderTextField;
+    private javax.swing.JLabel issueLabel;
+    private javax.swing.JTextField issueTextField;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lnameLabel;
     private javax.swing.JTextField lnameTextField;
-    private javax.swing.JLabel messageLabel;
-    private javax.swing.JScrollPane messageScrollPanel;
-    private javax.swing.JTextArea messageTextBox;
-    private javax.swing.JPanel photoPanel;
+    private javax.swing.JButton saveButton;
     private javax.swing.JLabel titleLabel;
-    private javax.swing.JLabel typeLabel;
-    private javax.swing.JTextField typeTextField;
+    private javax.swing.JTable userTable;
     // End of variables declaration//GEN-END:variables
 
-    private void populateData() {
-        fnameTextField.setText(this.newPatient.getFname());
-        lnameTextField.setText(this.newPatient.getLname());
-        ageTextField.setText(this.newPatient.getAge());
-        genderTextField.setText(this.newPatient.getGender());
-        emailTextField.setText(this.newPatient.getEmail());
-        typeTextField.setText(this.newPatient.getType());
-        messageTextBox.setText(this.newPatient.getMessage());
-        dateTextField.setText(this.newPatient.getDate());
-        // photoPanel.setsetIcon(icon);
+    
+    public void populateTable() {
+        try {
+            this.users = DatabaseConnector.getAllusers();
+            DefaultTableModel model = (DefaultTableModel) userTable.getModel();
+            model.setRowCount(0);
+            for (User u: users) {
+                Object[] row = new Object[7];
+                row[0] = u.getId();
+                row[1] = u.getFname();
+                row[2] = u.getLname();
+                row[3] = u.getAge();
+                row[4] = u.getIssue();
+                
+                model.addRow(row);
+            }
+            clearFields();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
+    
+    private void clearFields() {
+        fnameTextField.setText("");
+        lnameTextField.setText("");
+        ageTextField.setText("");
+        issueTextField.setText("");
+        selectedUser = null;
+    }
+
 }
