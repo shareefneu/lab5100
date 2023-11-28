@@ -27,7 +27,7 @@ public class SingleObjectTest {
     @Test
     public void getInstanceTest(){
         
-      
+ 
         SingleObject so = SingleObject.getInstance();
         assertEquals(so, SingleObject.getInstance());
         
